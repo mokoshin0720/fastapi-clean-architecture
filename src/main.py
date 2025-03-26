@@ -1,17 +1,10 @@
 import os
-from pathlib import Path
-
 import uvicorn
-from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.infrastructure.database.connection import init_db
-from src.presentation.api.router import api_router
-
-# 環境変数のロード
-env_path = Path(".") / ".env"
-load_dotenv(dotenv_path=env_path)
+from infrastructure.database.connection import init_db
+from presentation.api.router import api_router
 
 # FastAPIアプリケーションのインスタンスを作成
 app = FastAPI(
@@ -47,4 +40,4 @@ async def health_check():
 
 
 if __name__ == "__main__":
-    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

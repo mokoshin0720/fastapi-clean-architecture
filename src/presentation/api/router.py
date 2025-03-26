@@ -3,9 +3,9 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from src.application.use_cases.todo_use_cases import TodoInputDTO, TodoUseCase
-from src.presentation.api.dependencies import get_todo_use_case
-from src.presentation.api.schemas import (
+from application.use_cases.todo_use_cases import TodoInputDTO, TodoUseCase
+from presentation.api.dependencies import get_todo_use_case
+from presentation.api.schemas import (
     TodoCreate,
     TodoListResponse,
     TodoResponse,

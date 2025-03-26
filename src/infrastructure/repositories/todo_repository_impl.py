@@ -4,9 +4,9 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from src.domain.entities.todo import Todo
-from src.domain.repositories.todo_repository import TodoRepository
-from src.infrastructure.database.models import TodoModel
+from domain.entities.todo import Todo
+from domain.repositories.todo_repository import TodoRepository
+from infrastructure.database.models import TodoModel
 
 
 class SQLAlchemyTodoRepository(TodoRepository):

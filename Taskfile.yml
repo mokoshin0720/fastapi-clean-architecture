@@ -14,7 +14,8 @@ tasks:
   dev:
     desc: 開発サーバーを起動
     cmds:
-      - uv run src/main.py
+      - bash hack/run.sh uv run src/main.py
+
 
   test:
     desc: テストを実行

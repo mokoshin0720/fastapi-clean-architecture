@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from typing import List, Optional
 from uuid import UUID
 
-from src.domain.entities.todo import Todo
-from src.domain.repositories.todo_repository import TodoRepository
+from domain.entities.todo import Todo
+from domain.repositories.todo_repository import TodoRepository
 
 
 @dataclass

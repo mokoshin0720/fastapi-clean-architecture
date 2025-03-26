@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from src.application.use_cases.todo_use_cases import TodoUseCase
-from src.infrastructure.database.connection import get_db
-from src.infrastructure.repositories.todo_repository_impl import (
+from application.use_cases.todo_use_cases import TodoUseCase
+from infrastructure.database.connection import get_db
+from infrastructure.repositories.todo_repository_impl import (
     SQLAlchemyTodoRepository,
 )
 

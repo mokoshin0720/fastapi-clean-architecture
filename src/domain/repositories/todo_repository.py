@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 from uuid import UUID
 
-from src.domain.entities.todo import Todo
+from domain.entities.todo import Todo
 
 
 class TodoRepository(ABC):
