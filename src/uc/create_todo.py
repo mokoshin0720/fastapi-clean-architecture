@@ -1,6 +1,6 @@
 from domain.entities.todo import Todo
 from domain.repositories.todo_repository import TodoRepository
-from presentation.dto.todo import TodoInputDTO
+from dto.todo import TodoInputDTO
 
 
 async def create_todo(repository: TodoRepository, input_dto: TodoInputDTO) -> Todo:

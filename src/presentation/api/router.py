@@ -3,10 +3,10 @@ from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, status
 
-from presentation.dto.todo import TodoInputDTO
+from dto.todo import TodoInputDTO
 
-from application.use_cases.get_todo_by_id import get_todo_by_id
-from application.use_cases.create_todo import create_todo
+from uc import get_todo_by_id, create_todo
+
 from presentation.api.schemas import (
     TodoCreate,
     TodoResponse,
