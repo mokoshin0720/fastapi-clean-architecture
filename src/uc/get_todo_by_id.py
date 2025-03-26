@@ -1,8 +1,8 @@
 from typing import Optional
 from uuid import UUID
 
-from domain.entities.todo import Todo
-from domain.repositories.todo_repository import TodoRepository
+from domain.todo.aggregate import Todo
+from domain.todo.repository import TodoRepository
 
 
 async def get_todo_by_id(repository: TodoRepository, todo_id: UUID) -> Optional[Todo]:

@@ -1,7 +1,7 @@
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
-from src.domain.entities.todo import Todo
+from src.domain.todo.aggregate import Todo
 from src.infrastructure.database.models import TodoModel
 from src.infrastructure.database.connection import DB
 from src.infrastructure.database.repository_base import RepositoryBase

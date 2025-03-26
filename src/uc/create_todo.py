@@ -1,4 +1,4 @@
-from domain.entities.todo import Todo
+from domain.todo.aggregate import Todo
 from dto.todo import TodoInputDTO
 from registry.registry import Registry
 
