@@ -1,0 +1,34 @@
+version: "3"
+
+tasks:
+  install:
+    desc: 依存関係をインストール
+    cmds:
+      - poetry install
+
+  dev:
+    desc: 開発サーバーを起動
+    cmds:
+      - poetry run uvicorn src.main:app --reload
+
+  test:
+    desc: テストを実行
+    cmds:
+      - poetry run pytest
+
+  format:
+    desc: コードをフォーマット
+    cmds:
+      - poetry run black .
+      - poetry run isort .
+
+  lint:
+    desc: 静的コード解析を実行
+    cmds:
+      - poetry run flake8
+      - poetry run mypy .
+
+  clean:
+    desc: キャッシュファイルを削除
+    cmds:
+      - find . -type d -name __pycache__ -exec rm -rf {} +
