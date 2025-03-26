@@ -1,14 +1,9 @@
 from uuid import UUID
-
 from fastapi import APIRouter, HTTPException, status, Depends
-
 from registry.registry import Registry
-from dto.todo import TodoInputDTO, TodoOutputDTO
 from presentation.api.dependencies import get_registry
-
 import uc
-
-from presentation.api.schemas import (
+from presentation.schema.todo import (
     TodoCreate,
     TodoResponse,
 )
@@ -53,18 +48,18 @@ class TodoRouter:
                 detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
             )
 
-        return TodoOutputDTO.from_entity(todo)
+        return TodoResponse.from_entity(todo)
 
     async def create_todo(
         self,
         todo_create: TodoCreate,
         registry: Registry = Depends(get_registry),
     ):
-        input_dto = TodoInputDTO(
+        input_dto = TodoCreate(
             title=todo_create.title,
             description=todo_create.description,
         )
 
         todo = await uc.CreateTodo(registry=registry).do(input_dto)
 
-        return TodoOutputDTO.from_entity(todo)
+        return TodoResponse.from_entity(todo)
