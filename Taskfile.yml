@@ -1,6 +1,13 @@
 version: "3"
 
 tasks:
+  setup:
+    desc: 開発環境をセットアップ
+    cmds:
+      - docker network create todo || true
+      - aqua i
+      - docker compose up -d
+
   install:
     desc: 依存関係をインストール
     cmds:
@@ -15,7 +22,6 @@ tasks:
     desc: 開発サーバーを起動
     cmds:
       - bash hack/run.sh uv run src/main.py
-
 
   test:
     desc: テストを実行
