@@ -4,31 +4,42 @@ tasks:
   install:
     desc: 依存関係をインストール
     cmds:
-      - poetry install
+      - uv pip install -e .
+
+  sync:
+    desc: 依存関係を同期
+    cmds:
+      - uv pip sync requirements.txt dev-requirements.txt
 
   dev:
     desc: 開発サーバーを起動
     cmds:
-      - poetry run uvicorn src.main:app --reload
+      - uv run src/main.py
 
   test:
     desc: テストを実行
     cmds:
-      - poetry run pytest
+      - uv run pytest
 
   format:
     desc: コードをフォーマット
     cmds:
-      - poetry run black .
-      - poetry run isort .
+      - uv run black .
+      - uv run isort .
 
   lint:
     desc: 静的コード解析を実行
     cmds:
-      - poetry run flake8
-      - poetry run mypy .
+      - uv run flake8
+      - uv run mypy .
 
   clean:
     desc: キャッシュファイルを削除
     cmds:
       - find . -type d -name __pycache__ -exec rm -rf {} +
+
+  requirements:
+    desc: 依存関係ファイルを更新
+    cmds:
+      - uv pip compile pyproject.toml -o requirements.txt
+      - uv pip compile pyproject.toml --extra dev -o dev-requirements.txt

@@ -25,7 +25,8 @@
 ### 前提条件
 
 - Python 3.10 以上
-- Poetry
+- UV（高速 Python パッケージマネージャー）
+- Task（タスクランナー）
 
 ### インストール
 
@@ -35,7 +36,8 @@ git clone https://github.com/yourusername/fastapi-clean-architecture.git
 cd fastapi-clean-architecture
 
 # 依存関係をインストール
-poetry install
+task install
+task sync
 
 # 環境変数を設定
 cp .env.example .env
@@ -45,7 +47,8 @@ cp .env.example .env
 ### 実行
 
 ```bash
-poetry run uvicorn src.main:app --reload
+# 開発サーバー起動
+task dev
 ```
 
 ## API エンドポイント
@@ -59,14 +62,16 @@ poetry run uvicorn src.main:app --reload
 
 ```bash
 # テストを実行
-poetry run pytest
+task test
 
 # コードフォーマット
-poetry run black .
-poetry run isort .
+task format
 
 # 静的型チェック
-poetry run mypy .
+task lint
+
+# 依存関係ファイルを更新
+task requirements
 ```
 
 ## アーキテクチャの利点
