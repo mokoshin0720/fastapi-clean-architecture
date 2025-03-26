@@ -68,6 +68,3 @@ class TodoRouter:
         todo = await uc.CreateTodo(registry=registry).do(input_dto)
 
         return TodoOutputDTO.from_entity(todo)
-
-
-todo_router = TodoRouter().router
