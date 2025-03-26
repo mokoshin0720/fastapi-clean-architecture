@@ -2,6 +2,7 @@
 set -eu
 
 export PYTHONPATH="src"
+export PYTHONDONTWRITEBYTECODE=1
 export POSTGRES_USER="postgres"
 export POSTGRES_PASSWORD="password"
 export POSTGRES_HOST="localhost"
