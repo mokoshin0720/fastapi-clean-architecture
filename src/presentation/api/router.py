@@ -1,4 +1,3 @@
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, status, Depends
@@ -31,16 +30,13 @@ async def get_todo(
     todo_id: UUID,
     registry: Registry = Depends(get_registry),
 ):
-    """
-    特定のTODOアイテムを取得するエンドポイント
-    """
     todo = await uc.get_todo_by_id(repository=registry.repository, todo_id=todo_id)
     if not todo:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
         )
-    # TodoエンティティをTodoOutputDTOに変換
+
     return TodoOutputDTO.from_entity(todo)
 
 
@@ -55,16 +51,13 @@ async def create_todo(
     todo_create: TodoCreate,
     registry: Registry = Depends(get_registry),
 ):
-    """
-    新しいTODOアイテムを作成するエンドポイント
-    """
     input_dto = TodoInputDTO(
         title=todo_create.title,
         description=todo_create.description,
     )
 
     todo = await uc.CreateTodo(registry=registry).do(input_dto)
-    # TodoエンティティをTodoOutputDTOに変換
+
     return TodoOutputDTO.from_entity(todo)
 
 
