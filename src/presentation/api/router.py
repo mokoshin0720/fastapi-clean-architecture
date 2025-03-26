@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from dto.todo import TodoInputDTO
 
-from uc import get_todo_by_id, create_todo
+import uc
 
 from presentation.api.schemas import (
     TodoCreate,
@@ -31,7 +31,7 @@ async def get_todo(
     """
     特定のTODOアイテムを取得するエンドポイント
     """
-    todo = await get_todo_by_id(todo_id)
+    todo = await uc.get_todo_by_id(todo_id)
     if not todo:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -58,7 +58,7 @@ async def create_todo(
         description=todo_create.description,
     )
 
-    created_todo = await create_todo(input_dto)
+    created_todo = await uc.create_todo(input_dto)
     return created_todo
 
 
