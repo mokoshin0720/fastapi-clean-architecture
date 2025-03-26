@@ -3,7 +3,7 @@ from typing import Generic, TypeVar, Type, List, Optional, Any, Dict, Union
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from src.infrastructure.database.connection import DB, Base
+from src.infra.database.connection import DB, Base
 
 # エンティティとモデルのための型変数
 T = TypeVar("T", bound=Base)

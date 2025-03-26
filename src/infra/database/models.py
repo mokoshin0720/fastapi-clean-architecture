@@ -5,7 +5,7 @@ from typing import Any, Dict
 from sqlalchemy import Boolean, Column, DateTime, String, Text, Integer
 from sqlalchemy.dialects.postgresql import UUID
 
-from infrastructure.database.connection import Base
+from infra.database.connection import Base
 
 
 class TodoModel(Base):

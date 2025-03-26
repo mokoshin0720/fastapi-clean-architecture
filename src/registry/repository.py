@@ -1,7 +1,7 @@
 from typing import Optional
 from sqlalchemy.orm import Session
 
-from infrastructure.database.connection import DB, get_db_instance
+from infra.database.connection import DB, get_db_instance
 
 
 class Repository:

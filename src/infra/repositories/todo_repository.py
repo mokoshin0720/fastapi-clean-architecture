@@ -2,9 +2,9 @@ from typing import List, Optional, Dict, Any
 from datetime import datetime
 
 from src.domain.todo.aggregate import Todo
-from src.infrastructure.database.models import TodoModel
-from src.infrastructure.database.connection import DB
-from src.infrastructure.database.repository_base import RepositoryBase
+from src.infra.database.models import TodoModel
+from src.infra.database.connection import DB
+from src.infra.database.repository_base import RepositoryBase
 
 
 class TodoRepository(RepositoryBase[TodoModel, Todo]):

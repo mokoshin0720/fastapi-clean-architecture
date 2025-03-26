@@ -1,8 +1,8 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from infrastructure.database.connection import get_db
-from infrastructure.repositories.todo_repository_impl import (
+from infra.database.connection import get_db
+from infra.repositories.todo_repository_impl import (
     SQLAlchemyTodoRepository,
 )
 from registry.registry import Registry

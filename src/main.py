@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from infrastructure.database.connection import init_db
+from infra.database.connection import init_db
 from presentation.api.router import api_router
 
 # FastAPIアプリケーションのインスタンスを作成

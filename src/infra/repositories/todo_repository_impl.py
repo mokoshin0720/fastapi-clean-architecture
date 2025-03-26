@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 
 from domain.todo.aggregate import Todo
 from domain.todo.repository import TodoRepository
-from infrastructure.database.models import TodoModel
-from infrastructure.database.connection import DB
+from infra.database.models import TodoModel
+from infra.database.connection import DB
 
 
 class SQLAlchemyTodoRepository(TodoRepository):
