@@ -1,9 +1,11 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 
-from dto.todo import TodoInputDTO
+from registry.registry import Registry
+from dto.todo import TodoInputDTO, TodoOutputDTO
+from presentation.api.dependencies import get_registry
 
 import uc
 
@@ -27,17 +29,19 @@ todo_router = APIRouter(prefix="/todos", tags=["todos"])
 )
 async def get_todo(
     todo_id: UUID,
+    registry: Registry = Depends(get_registry),
 ):
     """
     特定のTODOアイテムを取得するエンドポイント
     """
-    todo = await uc.get_todo_by_id(todo_id)
+    todo = await uc.get_todo_by_id(repository=registry.repository, todo_id=todo_id)
     if not todo:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
         )
-    return todo
+    # TodoエンティティをTodoOutputDTOに変換
+    return TodoOutputDTO.from_entity(todo)
 
 
 @todo_router.post(
@@ -49,6 +53,7 @@ async def get_todo(
 )
 async def create_todo(
     todo_create: TodoCreate,
+    registry: Registry = Depends(get_registry),
 ):
     """
     新しいTODOアイテムを作成するエンドポイント
@@ -58,8 +63,9 @@ async def create_todo(
         description=todo_create.description,
     )
 
-    created_todo = await uc.create_todo(input_dto)
-    return created_todo
+    todo = await uc.CreateTodo(registry=registry).do(input_dto)
+    # TodoエンティティをTodoOutputDTOに変換
+    return TodoOutputDTO.from_entity(todo)
 
 
 # すべてのルーターを登録

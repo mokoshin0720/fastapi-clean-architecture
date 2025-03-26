@@ -8,16 +8,15 @@ from uuid import UUID, uuid4
 class Todo:
     """
     Todoエンティティクラス
-
-    ドメインのコアとなるエンティティで、Todoアイテムを表現します。
+    ドメインロジックを含むビジネスオブジェクト
     """
 
-    id: UUID
+    id: Optional[int]
     title: str
     description: Optional[str]
-    is_completed: bool
-    created_at: datetime
-    updated_at: datetime
+    completed: bool
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
     @classmethod
     def create(cls, title: str, description: Optional[str] = None) -> "Todo":
@@ -36,35 +35,44 @@ class Todo:
             id=uuid4(),
             title=title,
             description=description,
-            is_completed=False,
+            completed=False,
             created_at=now,
             updated_at=now,
         )
 
-    def complete(self) -> None:
-        """Todoを完了状態にマークします"""
-        self.is_completed = True
-        self.updated_at = datetime.utcnow()
-
-    def uncomplete(self) -> None:
-        """Todoの完了状態を解除します"""
-        self.is_completed = False
-        self.updated_at = datetime.utcnow()
-
-    def update(
-        self, title: Optional[str] = None, description: Optional[str] = None
-    ) -> None:
+    def mark_as_completed(self) -> None:
         """
-        Todoの情報を更新します
+        Todoを完了状態にする
+        """
+        self.completed = True
+        self.updated_at = datetime.utcnow()
+
+    def update_title(self, new_title: str) -> None:
+        """
+        Todoのタイトルを更新する
 
         Args:
-            title: 新しいタイトル
-            description: 新しい説明
+            new_title: 新しいタイトル
         """
-        if title is not None:
-            self.title = title
+        if not new_title:
+            raise ValueError("タイトルは空にできません")
 
-        if description is not None:
-            self.description = description
+        self.title = new_title
+        self.updated_at = datetime.utcnow()
 
+    def update_description(self, new_description: Optional[str]) -> None:
+        """
+        Todoの説明を更新する
+
+        Args:
+            new_description: 新しい説明
+        """
+        self.description = new_description
+        self.updated_at = datetime.utcnow()
+
+    def toggle_completion(self) -> None:
+        """
+        Todoの完了状態を切り替える
+        """
+        self.completed = not self.completed
         self.updated_at = datetime.utcnow()

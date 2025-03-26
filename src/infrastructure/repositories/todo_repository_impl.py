@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from domain.entities.todo import Todo
 from domain.repositories.todo_repository import TodoRepository
 from infrastructure.database.models import TodoModel
+from infrastructure.database.connection import DB
 
 
 class SQLAlchemyTodoRepository(TodoRepository):
@@ -16,8 +17,9 @@ class SQLAlchemyTodoRepository(TodoRepository):
     ドメインリポジトリインターフェースとデータベースの橋渡しを行います。
     """
 
-    def __init__(self, session: Session):
-        self.session = session
+    def __init__(self, db: DB):
+        self.db = db
+        self.session = db.get()
 
     async def get_all(self) -> List[Todo]:
         """すべてのTodoエンティティを取得"""
@@ -37,7 +39,7 @@ class SQLAlchemyTodoRepository(TodoRepository):
             id=str(todo.id),
             title=todo.title,
             description=todo.description,
-            is_completed=todo.is_completed,
+            completed=todo.completed,
             created_at=todo.created_at,
             updated_at=todo.updated_at,
         )
@@ -57,7 +59,7 @@ class SQLAlchemyTodoRepository(TodoRepository):
         if model:
             model.title = todo.title
             model.description = todo.description
-            model.is_completed = todo.is_completed
+            model.completed = todo.completed
             model.updated_at = todo.updated_at
 
             self.session.commit()
@@ -85,7 +87,7 @@ class SQLAlchemyTodoRepository(TodoRepository):
             id=UUID(model.id),
             title=model.title,
             description=model.description,
-            is_completed=model.is_completed,
+            completed=model.completed,
             created_at=model.created_at,
             updated_at=model.updated_at,
         )

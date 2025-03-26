@@ -31,7 +31,7 @@ class TodoOutputDTO:
             id=entity.id,
             title=entity.title,
             description=entity.description,
-            is_completed=entity.is_completed,
+            is_completed=entity.completed,
             created_at=entity.created_at.isoformat(),
             updated_at=entity.updated_at.isoformat(),
         )
