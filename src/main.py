@@ -23,8 +23,7 @@ app.add_middleware(
 )
 
 # APIルーターの設定
-api_prefix = os.getenv("API_PREFIX", "/api")
-app.include_router(api_router, prefix=api_prefix)
+app.include_router(api_router)
 
 
 # スタートアップイベント
@@ -33,7 +32,7 @@ async def startup_event():
     init_db()
 
 
-# 健康チェックエンドポイント
+# ヘルスチェックエンドポイント
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}

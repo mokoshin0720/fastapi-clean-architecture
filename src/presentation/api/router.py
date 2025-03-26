@@ -1,15 +1,15 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, HTTPException, status
 
-from application.use_cases.todo_use_cases import TodoInputDTO, TodoUseCase
-from presentation.api.dependencies import get_todo_use_case
+from presentation.dto.todo import TodoInputDTO
+
+from application.use_cases.get_todo_by_id import get_todo_by_id
+from application.use_cases.create_todo import create_todo
 from presentation.api.schemas import (
     TodoCreate,
-    TodoListResponse,
     TodoResponse,
-    TodoUpdate,
 )
 
 # APIルーターの作成
@@ -20,22 +20,6 @@ todo_router = APIRouter(prefix="/todos", tags=["todos"])
 
 
 @todo_router.get(
-    "",
-    response_model=TodoListResponse,
-    summary="すべてのTODOアイテムを取得",
-    description="データベースに保存されているすべてのTODOアイテムを取得します。",
-)
-async def get_todos(
-    use_case: TodoUseCase = Depends(get_todo_use_case),
-):
-    """
-    すべてのTODOアイテムを取得するエンドポイント
-    """
-    todos = await use_case.get_all_todos()
-    return TodoListResponse(items=todos, count=len(todos))
-
-
-@todo_router.get(
     "/{todo_id}",
     response_model=TodoResponse,
     summary="特定のTODOアイテムを取得",
@@ -43,12 +27,11 @@ async def get_todos(
 )
 async def get_todo(
     todo_id: UUID,
-    use_case: TodoUseCase = Depends(get_todo_use_case),
 ):
     """
     特定のTODOアイテムを取得するエンドポイント
     """
-    todo = await use_case.get_todo_by_id(todo_id)
+    todo = await get_todo_by_id(todo_id)
     if not todo:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -66,7 +49,6 @@ async def get_todo(
 )
 async def create_todo(
     todo_create: TodoCreate,
-    use_case: TodoUseCase = Depends(get_todo_use_case),
 ):
     """
     新しいTODOアイテムを作成するエンドポイント
@@ -76,83 +58,8 @@ async def create_todo(
         description=todo_create.description,
     )
 
-    created_todo = await use_case.create_todo(input_dto)
+    created_todo = await create_todo(input_dto)
     return created_todo
-
-
-@todo_router.put(
-    "/{todo_id}",
-    response_model=TodoResponse,
-    summary="TODOアイテムを更新",
-    description="指定されたIDのTODOアイテムを更新します。存在しない場合は404エラーを返します。",
-)
-async def update_todo(
-    todo_id: UUID,
-    todo_update: TodoUpdate,
-    use_case: TodoUseCase = Depends(get_todo_use_case),
-):
-    """
-    TODOアイテムを更新するエンドポイント
-    """
-    if not any([todo_update.title, todo_update.description is not None]):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="更新するフィールドが指定されていません",
-        )
-
-    input_dto = TodoInputDTO(
-        title=todo_update.title if todo_update.title else "",
-        description=todo_update.description,
-    )
-
-    updated_todo = await use_case.update_todo(todo_id, input_dto)
-    if not updated_todo:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
-        )
-
-    return updated_todo
-
-
-@todo_router.patch(
-    "/{todo_id}/complete",
-    response_model=TodoResponse,
-    summary="TODOアイテムを完了としてマーク",
-    description="指定されたIDのTODOアイテムを完了状態にします。存在しない場合は404エラーを返します。",
-)
-async def complete_todo(
-    todo_id: UUID,
-    use_case: TodoUseCase = Depends(get_todo_use_case),
-):
-    """
-    TODOアイテムを完了としてマークするエンドポイント
-    """
-    completed_todo = await use_case.complete_todo(todo_id)
-    if not completed_todo:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
-        )
-
-    return completed_todo
-
-
-@todo_router.delete(
-    "/{todo_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
-    summary="TODOアイテムを削除",
-    description="指定されたIDのTODOアイテムを削除します。",
-)
-async def delete_todo(
-    todo_id: UUID,
-    use_case: TodoUseCase = Depends(get_todo_use_case),
-):
-    """
-    TODOアイテムを削除するエンドポイント
-    """
-    await use_case.delete_todo(todo_id)
-    return None
 
 
 # すべてのルーターを登録
