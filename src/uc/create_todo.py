@@ -15,7 +15,7 @@ class CreateTodo:
         Args:
             registry: レジストリ
         """
-        self.registry = registry
+        self.todo_repository = registry.get_todo_repository()
 
     async def do(self, input_dto: TodoInputDTO) -> Todo:
         """
@@ -32,4 +32,4 @@ class CreateTodo:
             description=input_dto.description,
         )
 
-        return await self.registry.repository.create(todo)
+        return await self.todo_repository.create(todo)
