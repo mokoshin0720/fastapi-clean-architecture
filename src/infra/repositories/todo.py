@@ -20,8 +20,8 @@ class SQLAlchemyTodoRepository(TodoRepository):
     async def get_by_id(self, todo_id: UUID) -> Optional[Todo]:
         """指定されたIDのTodoエンティティを取得"""
         model = (
-            self.session.query(entity.Todos)
-            .filter(entity.Todos.id == str(todo_id))
+            self.session.query(entity.Todo)
+            .filter(entity.Todo.id == str(todo_id))
             .first()
         )
         return self._to_entity(model) if model else None
@@ -36,24 +36,26 @@ class SQLAlchemyTodoRepository(TodoRepository):
 
         return self._to_entity(model)
 
-    def _to_entity(self, model: entity.Todos) -> Todo:
+    def _to_entity(self, input: entity.Todo) -> Todo:
         """データベースモデルからドメインエンティティに変換"""
         return Todo(
-            id=UUID(model.id),
-            title=model.title,
-            description=model.description,
-            completed=model.completed,
-            created_at=model.created_at,
-            updated_at=model.updated_at,
+            id=input.id,
+            title=input.todo_detail.title,
+            description=input.todo_detail.description,
+            completed=input.todo_detail.completed,
+            created_at=input.created_at,
+            updated_at=input.updated_at,
         )
 
-    def _to_model(self, input: Todo) -> entity.Todos:
+    def _to_model(self, input: Todo) -> entity.Todo:
         """ドメインエンティティからデータベースモデルに変換"""
-        return entity.Todos(
+        return entity.Todo(
             id=str(input.id),
-            title=input.title,
-            description=input.description,
-            completed=input.completed,
+            todo_detail=entity.TodoDetail(
+                title=input.title,
+                description=input.description,
+                completed=input.completed,
+            ),
             created_at=input.created_at,
             updated_at=input.updated_at,
         )

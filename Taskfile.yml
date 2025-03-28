@@ -31,7 +31,7 @@ tasks:
   codegen:
     desc: コード生成
     cmds:
-      - uv run sqlacodegen postgresql://postgres:password@localhost:5432/todo --outfile src/infra/entity.py
+      - uv run sqlacodegen --options use_inflect,nojoined postgresql://postgres:password@localhost:5432/todo --outfile src/infra/entity.py
 
   test:
     desc: テストを実行

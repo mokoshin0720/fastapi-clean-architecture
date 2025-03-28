@@ -11,7 +11,7 @@ class Todo:
     ドメインロジックを含むビジネスオブジェクト
     """
 
-    id: Optional[int]
+    id: str
     title: str
     description: Optional[str]
     completed: bool
