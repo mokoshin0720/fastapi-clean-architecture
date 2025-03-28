@@ -40,7 +40,7 @@ class TodoRouter:
         self,
         todo_id: UUID,
     ):
-        todo = await usecase.get_todo_by_id(repository=self.registry.get_todo_repository, todo_id=todo_id)
+        todo = await usecase.GetTodoById(registry=self.registry).do(todo_id=todo_id)
         if not todo:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
