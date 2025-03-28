@@ -28,6 +28,11 @@ tasks:
     cmds:
       - psqldef -U postgres -W password --host localhost -p 5432 todo < migration/schema.sql
 
+  codegen:
+    desc: コード生成
+    cmds:
+      - uv run sqlacodegen postgresql://postgres:password@localhost:5432/todo --outfile src/infra/entity.py
+
   test:
     desc: テストを実行
     cmds:
