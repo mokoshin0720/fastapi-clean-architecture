@@ -15,7 +15,6 @@ class SQLAlchemyTodoRepository(TodoRepository):
     """
 
     def __init__(self, db: DB):
-        self.db = db
         self.session = db.get()
 
     async def get_by_id(self, todo_id: UUID) -> Optional[Todo]:
