@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 from infra.database.connection import init_db
 from presentation.router.root import RootRouter
-
+from registry.registry import Registry
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,7 +32,7 @@ def create_app() -> FastAPI:
     )
 
     # APIルーターの設定
-    router = RootRouter().get_api_router()
+    router = RootRouter(registry=Registry()).get_api_router()
     app.include_router(router=router)
 
     return app

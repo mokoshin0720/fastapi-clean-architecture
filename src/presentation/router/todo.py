@@ -10,9 +10,10 @@ from presentation.schema.todo import (
 
 
 class TodoRouter:
-    def __init__(self):
+    def __init__(self, registry: Registry):
         self.router = APIRouter(prefix="/todos", tags=["todos"])
         self._register_routes()
+        self.registry = registry
 
     def get_router(self):
         return self.router
@@ -39,9 +40,8 @@ class TodoRouter:
     async def get_todo(
         self,
         todo_id: UUID,
-        registry: Registry = Depends(get_registry),
     ):
-        todo = await uc.get_todo_by_id(repository=registry.repository, todo_id=todo_id)
+        todo = await uc.get_todo_by_id(repository=self.registry.repository, todo_id=todo_id)
         if not todo:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -53,13 +53,12 @@ class TodoRouter:
     async def create_todo(
         self,
         todo_create: TodoCreate,
-        registry: Registry = Depends(get_registry),
     ):
         input_dto = TodoCreate(
             title=todo_create.title,
             description=todo_create.description,
         )
 
-        todo = await uc.CreateTodo(registry=registry).do(input_dto)
+        todo = await uc.CreateTodo(registry=self.registry).do(input_dto)
 
         return TodoResponse.from_entity(todo)
