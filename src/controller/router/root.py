@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.registry import Registry
-from presentation.router.todo import TodoRouter
+from controller.router.todo import TodoRouter
 
 
 class RootRouter:

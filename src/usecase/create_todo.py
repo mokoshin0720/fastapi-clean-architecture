@@ -1,5 +1,5 @@
 from domain.todo.aggregate import Todo
-from presentation.schema.todo import TodoCreate
+from controller.schema.todo import TodoCreate
 from app.registry import Registry
 
 

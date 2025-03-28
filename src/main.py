@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from presentation.router.root import RootRouter
+from controller.router.root import RootRouter
 from app.registry import Registry
 
 
