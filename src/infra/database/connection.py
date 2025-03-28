@@ -88,33 +88,6 @@ class DB:
 _db_instance = None
 
 
-def get_db() -> Generator[DB, None, None]:
-    """
-    データベースセッションを取得するジェネレータ
-
-    使用例:
-    ```
-    db = next(get_db())
-    try:
-        # データベース操作
-    finally:
-        db.session.close()
-    ```
-
-    または、FastAPIの依存関係注入機能と併用:
-    ```
-    @app.get("/items/")
-    def read_items(db: DB = Depends(get_db)):
-        # データベース操作
-    ```
-    """
-    session = SessionLocal()
-    try:
-        yield DB(session)
-    finally:
-        session.close()
-
-
 def get_db_instance() -> DB:
     """
     シングルトンパターンでDBインスタンスを取得する
@@ -125,12 +98,3 @@ def get_db_instance() -> DB:
         session = SessionLocal()
         _db_instance = DB(session)
     return _db_instance
-
-
-def init_db() -> None:
-    """
-    データベースの初期化
-    アプリケーション起動時に呼び出される
-    """
-    # すべてのテーブルを作成
-    Base.metadata.create_all(bind=engine)
