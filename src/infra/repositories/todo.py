@@ -43,8 +43,6 @@ class SQLAlchemyTodoRepository(TodoRepository):
             title=input.todo_detail.title,
             description=input.todo_detail.description,
             completed=input.todo_detail.completed,
-            created_at=input.created_at,
-            updated_at=input.updated_at,
         )
 
     def _to_model(self, input: Todo) -> entity.Todo:
@@ -56,6 +54,4 @@ class SQLAlchemyTodoRepository(TodoRepository):
                 description=input.description,
                 completed=input.completed,
             ),
-            created_at=input.created_at,
-            updated_at=input.updated_at,
         )

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional
 from uuid import uuid4
 
@@ -15,8 +14,6 @@ class Todo:
     title: str
     description: Optional[str]
     completed: bool
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
 
     @classmethod
     def create(cls, title: str, description: Optional[str] = None) -> "Todo":
@@ -30,14 +27,11 @@ class Todo:
         Returns:
             新しく作成されたTodoエンティティ
         """
-        now = datetime.utcnow()
         return cls(
             id=uuid4(),
             title=title,
             description=description,
             completed=False,
-            created_at=now,
-            updated_at=now,
         )
 
     def mark_as_completed(self) -> None:
@@ -45,7 +39,6 @@ class Todo:
         Todoを完了状態にする
         """
         self.completed = True
-        self.updated_at = datetime.utcnow()
 
     def update_title(self, new_title: str) -> None:
         """
@@ -58,7 +51,6 @@ class Todo:
             raise ValueError("タイトルは空にできません")
 
         self.title = new_title
-        self.updated_at = datetime.utcnow()
 
     def update_description(self, new_description: Optional[str]) -> None:
         """
@@ -68,11 +60,9 @@ class Todo:
             new_description: 新しい説明
         """
         self.description = new_description
-        self.updated_at = datetime.utcnow()
 
     def toggle_completion(self) -> None:
         """
         Todoの完了状態を切り替える
         """
         self.completed = not self.completed
-        self.updated_at = datetime.utcnow()

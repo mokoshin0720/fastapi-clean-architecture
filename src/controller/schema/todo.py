@@ -18,8 +18,6 @@ class TodoResponse(BaseModel):
     title: str
     description: Optional[str] = None
     is_completed: bool
-    created_at: str
-    updated_at: str
 
     @classmethod
     def from_model(cls, model: Todo) -> "TodoResponse":
@@ -37,6 +35,4 @@ class TodoResponse(BaseModel):
             title=model.title,
             description=model.description,
             is_completed=model.completed,
-            created_at=model.created_at.isoformat() if model.created_at else "",
-            updated_at=model.updated_at.isoformat() if model.updated_at else "",
         )
