@@ -1,6 +1,6 @@
 from domain.todo.repository import TodoRepository
 from infra.repositories.todo_repository_impl import SQLAlchemyTodoRepository
-from infra.database.connection import get_db_instance
+from app.database import get_db_instance
 
 
 class Registry:

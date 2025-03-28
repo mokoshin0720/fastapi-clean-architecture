@@ -4,7 +4,7 @@ from uuid import UUID
 from domain.todo.aggregate import Todo
 from domain.todo.repository import TodoRepository
 from infra.database.models import TodoModel
-from infra.database.connection import DB
+from app.database import DB
 
 
 class SQLAlchemyTodoRepository(TodoRepository):
