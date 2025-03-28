@@ -1,9 +1,9 @@
-import os
-from typing import Any, Dict, Generator, Callable, TypeVar
+from typing import Generator, Callable, TypeVar
 from contextlib import contextmanager
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine
+from app.config import Config
 
 # ベースクラス
 Base = declarative_base()
@@ -66,15 +66,10 @@ def get_db_instance() -> DB:
     シングルトンパターンでDBインスタンスを取得する
     一度だけセッションを生成し、アプリケーション全体で共有する
     """
-
-    DB_USER = os.getenv("POSTGRES_USER", "postgres")
-    DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "password")
-    DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
-    DB_PORT = os.getenv("POSTGRES_PORT", "5432")
-    DB_NAME = os.getenv("POSTGRES_DB", "todo")
+    config = Config()
 
     # データベース接続URL
-    database_url = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    database_url = f"postgresql://{config.db_user}:{config.db_password}@{config.db_host}:{config.db_port}/{config.db_name}"
 
     # エンジンとセッションの作成
     engine = create_engine(database_url)
