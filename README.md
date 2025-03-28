@@ -57,3 +57,12 @@ task dev
 
 - `GET /api/todos` - すべての TODO アイテムを取得
 - `POST /api/todos` - 新しい TODO アイテムを作成
+
+## DB 操作
+
+データベースに変更を加える手順：
+
+1. `migration/schema.sql` ファイルでテーブル定義を修正する
+2. `task codegen` コマンドを実行して、SQLAlchemy 用のモデルを自動生成する
+
+これにより、`src/infra/entity.py` ファイルが更新され、データベーススキーマの変更がコードに反映されます。
