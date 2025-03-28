@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from app.registry import Registry
 import usecase
 from controller.schema.todo import (
-    TodoCreate,
+    CreateTodoRequest,
     TodoResponse,
 )
 
@@ -51,9 +51,9 @@ class TodoRouter:
 
     async def create_todo(
         self,
-        todo_create: TodoCreate,
+        todo_create: CreateTodoRequest,
     ):
-        input_dto = TodoCreate(
+        input_dto = CreateTodoRequest(
             title=todo_create.title,
             description=todo_create.description,
         )

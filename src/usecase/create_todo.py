@@ -1,5 +1,5 @@
 from domain.todo.aggregate import Todo
-from controller.schema.todo import TodoCreate
+from controller.schema.todo import CreateTodoRequest
 from app.registry import Registry
 
 
@@ -17,7 +17,7 @@ class CreateTodo:
         """
         self.todo_repository = registry.get_todo_repository()
 
-    async def do(self, input_dto: TodoCreate) -> Todo:
+    async def do(self, input_dto: CreateTodoRequest) -> Todo:
         """
         新しいTodoを作成
 
