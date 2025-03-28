@@ -47,7 +47,7 @@ class TodoRouter:
                 detail=f"ID {todo_id} のTODOアイテムは見つかりませんでした",
             )
 
-        return TodoResponse.from_entity(todo)
+        return TodoResponse.from_model(todo)
 
     async def create_todo(
         self,
@@ -60,4 +60,4 @@ class TodoRouter:
 
         todo = await usecase.CreateTodo(registry=self.registry).do(input_dto)
 
-        return TodoResponse.from_entity(todo)
+        return TodoResponse.from_model(todo)

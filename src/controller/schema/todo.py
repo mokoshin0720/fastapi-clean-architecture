@@ -22,21 +22,21 @@ class TodoResponse(BaseModel):
     updated_at: str
 
     @classmethod
-    def from_entity(cls, todo: Todo) -> "TodoResponse":
+    def from_model(cls, model: Todo) -> "TodoResponse":
         """
-        Todoエンティティからレスポンススキーマを生成する
+        Todoモデルからレスポンススキーマを生成する
 
         Args:
-            todo: Todoエンティティ
+            model: Todoモデル
 
         Returns:
             TodoResponse: レスポンススキーマ
         """
         return cls(
-            id=todo.id,
-            title=todo.title,
-            description=todo.description,
-            is_completed=todo.completed,
-            created_at=todo.created_at.isoformat() if todo.created_at else "",
-            updated_at=todo.updated_at.isoformat() if todo.updated_at else "",
+            id=model.id,
+            title=model.title,
+            description=model.description,
+            is_completed=model.completed,
+            created_at=model.created_at.isoformat() if model.created_at else "",
+            updated_at=model.updated_at.isoformat() if model.updated_at else "",
         )
