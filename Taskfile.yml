@@ -8,55 +8,23 @@ tasks:
       - aqua i
       - docker compose up -d
 
-  install:
-    desc: 依存関係をインストール
-    cmds:
-      - uv pip install -e .
-
-  sync:
-    desc: 依存関係を同期
-    cmds:
-      - uv pip sync requirements.txt dev-requirements.txt
-
-  dev:
-    desc: 開発サーバーを起動
-    cmds:
-      - bash hack/run.sh uv run src/main.py
-
   migrate:
     desc: マイグレーションを実行
+    deps:
+      - setup
     cmds:
       - psqldef -U postgres -W password --host localhost -p 5432 todo < migration/schema.sql
 
   codegen:
     desc: コード生成
+    deps:
+      - migrate
     cmds:
       - uv run sqlacodegen --options use_inflect,nojoined postgresql://postgres:password@localhost:5432/todo --outfile src/infra/entity.py
 
-  test:
-    desc: テストを実行
+  dev:
+    desc: 開発サーバーを起動
+    deps:
+      - codegen
     cmds:
-      - uv run pytest
-
-  format:
-    desc: コードをフォーマット
-    cmds:
-      - uv run black .
-      - uv run isort .
-
-  lint:
-    desc: 静的コード解析を実行
-    cmds:
-      - uv run flake8
-      - uv run mypy .
-
-  clean:
-    desc: キャッシュファイルを削除
-    cmds:
-      - find . -type d -name __pycache__ -exec rm -rf {} +
-
-  requirements:
-    desc: 依存関係ファイルを更新
-    cmds:
-      - uv pip compile pyproject.toml -o requirements.txt
-      - uv pip compile pyproject.toml --extra dev -o dev-requirements.txt
+      - bash hack/run.sh uv run src/main.py
