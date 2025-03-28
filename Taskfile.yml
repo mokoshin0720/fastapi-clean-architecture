@@ -23,6 +23,11 @@ tasks:
     cmds:
       - bash hack/run.sh uv run src/main.py
 
+  migrate:
+    desc: マイグレーションを実行
+    cmds:
+      - psqldef -U postgres -W password --host localhost -p 5432 todo < migration/schema.sql
+
   test:
     desc: テストを実行
     cmds:
