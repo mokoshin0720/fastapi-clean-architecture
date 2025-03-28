@@ -1,6 +1,6 @@
 from domain.todo.aggregate import Todo
 from presentation.schema.todo import TodoCreate
-from registry.registry import Registry
+from app.registry import Registry
 
 
 class CreateTodo:

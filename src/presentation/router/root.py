@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from registry.registry import Registry
+from app.registry import Registry
 from presentation.router.todo import TodoRouter
 
 

@@ -1,7 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, status, Depends
-from registry.registry import Registry
-from presentation.api.dependencies import get_registry
+from app.registry import Registry
 import uc
 from presentation.schema.todo import (
     TodoCreate,
@@ -41,7 +40,7 @@ class TodoRouter:
         self,
         todo_id: UUID,
     ):
-        todo = await uc.get_todo_by_id(repository=self.registry.repository, todo_id=todo_id)
+        todo = await uc.get_todo_by_id(repository=self.registry.get_todo_repository, todo_id=todo_id)
         if not todo:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
