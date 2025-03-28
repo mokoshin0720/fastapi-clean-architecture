@@ -13,26 +13,32 @@ async def lifespan(app: FastAPI):
     yield
 
 
-# FastAPIアプリケーションのインスタンスを作成
-app = FastAPI(
-    title="FastAPI クリーンアーキテクチャ & DDD テンプレート",
-    description="FastAPIを使用したクリーンアーキテクチャとDDDのテンプレート",
-    version="0.1.0",
-    lifespan=lifespan,
-)
+def create_app() -> FastAPI:
+    # FastAPIアプリケーションのインスタンスを作成
+    app = FastAPI(
+        title="FastAPI クリーンアーキテクチャ & DDD テンプレート",
+        description="FastAPIを使用したクリーンアーキテクチャとDDDのテンプレート",
+        version="0.1.0",
+        lifespan=lifespan,
+    )
 
-# CORSミドルウェアの設定
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+    # CORSミドルウェアの設定
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-# APIルーターの設定
-router = RootRouter().get_api_router()
-app.include_router(router=router)
+    # APIルーターの設定
+    router = RootRouter().get_api_router()
+    app.include_router(router=router)
+
+    return app
+
+
+app = create_app()
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
