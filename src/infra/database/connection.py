@@ -1,4 +1,4 @@
-from typing import Generator, Callable, TypeVar
+from typing import Generator, Callable
 from contextlib import contextmanager
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
@@ -7,9 +7,6 @@ from app.config import Config
 
 # ベースクラス
 Base = declarative_base()
-
-# 型変数
-T = TypeVar("T")
 
 
 class DB:
@@ -46,7 +43,7 @@ class DB:
             self.rollback()
             raise
 
-    def execute_in_transaction(self, func: Callable[["DB"], T]) -> T:
+    def execute_in_transaction(self, func: Callable[["DB"], any]) -> any:
         """トランザクション内で関数を実行する"""
         try:
             result = func(self)
