@@ -3,7 +3,7 @@ from uuid import UUID
 
 from domain.todo.aggregate import Todo
 from domain.todo.repository import TodoRepository
-from infra.database.models import TodoModel
+from infra.database.entites import TodoModel
 from app.database import DB
 
 
@@ -26,14 +26,7 @@ class SQLAlchemyTodoRepository(TodoRepository):
 
     async def create(self, todo: Todo) -> Todo:
         """新しいTodoエンティティを保存"""
-        model = TodoModel(
-            id=str(todo.id),
-            title=todo.title,
-            description=todo.description,
-            completed=todo.completed,
-            created_at=todo.created_at,
-            updated_at=todo.updated_at,
-        )
+        model = self._to_model(todo)
 
         self.session.add(model)
         self.session.commit()
@@ -50,4 +43,15 @@ class SQLAlchemyTodoRepository(TodoRepository):
             completed=model.completed,
             created_at=model.created_at,
             updated_at=model.updated_at,
+        )
+
+    def _to_model(self, entity: Todo) -> TodoModel:
+        """ドメインエンティティからデータベースモデルに変換"""
+        return TodoModel(
+            id=str(entity.id),
+            title=entity.title,
+            description=entity.description,
+            completed=entity.completed,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
         )
